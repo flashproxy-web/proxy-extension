@@ -49,7 +49,7 @@ jobs:
 
       - name: Upload e2e output
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: e2e-out
           path: e2e/out
@@ -57,7 +57,7 @@ jobs:
 
       - name: Upload extension build
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: extension-dist
           path: dist
