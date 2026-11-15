@@ -1,0 +1,923 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: 'Geist';
+  src: url('../../assets/fonts/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('../../assets/fonts/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: block;
+}
+
+@theme inline {
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-serif: Source Serif 4, serif;
+  --radius: 0.7rem;
+  --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
+  --tracking-tight: calc(var(--tracking-normal) - 0.025em);
+  --tracking-wide: calc(var(--tracking-normal) + 0.025em);
+  --tracking-wider: calc(var(--tracking-normal) + 0.05em);
+  --tracking-widest: calc(var(--tracking-normal) + 0.1em);
+  --tracking-normal: var(--tracking-normal);
+  --shadow-2xl: var(--shadow-2xl);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-md: var(--shadow-md);
+  --shadow: var(--shadow);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-2xs: var(--shadow-2xs);
+  --spacing: var(--spacing);
+  --letter-spacing: var(--letter-spacing);
+  --shadow-offset-y: var(--shadow-offset-y);
+  --shadow-offset-x: var(--shadow-offset-x);
+  --shadow-spread: var(--shadow-spread);
+  --shadow-blur: var(--shadow-blur);
+  --shadow-opacity: var(--shadow-opacity);
+  --color-shadow-color: var(--shadow-color);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@theme inline {
+  --color-fp-ink: var(--fp-ink);
+  --color-fp-muted: var(--fp-muted);
+  --color-fp-muted2: var(--fp-muted2);
+  --color-fp-line: var(--fp-line);
+  --color-fp-line2: var(--fp-line2);
+  --color-fp-panel: var(--fp-panel);
+  --color-fp-soft: var(--fp-soft);
+  --color-fp-soft-line: var(--fp-soft-line);
+  --color-fp-track: var(--fp-track);
+  --color-fp-field: var(--fp-field);
+  --color-fp-accent-ink: var(--fp-accent-ink);
+  --color-fp-accent-hover: var(--fp-accent-hover);
+  --color-fp-green: var(--fp-green);
+  --color-fp-amber: var(--fp-amber);
+  --color-fp-red: var(--fp-red);
+}
+
+:root {
+  --background: rgb(255, 255, 255);
+  --foreground: rgb(34, 34, 34);
+  --card: rgb(255, 255, 255);
+  --card-foreground: rgb(34, 34, 34);
+  --popover: rgb(255, 255, 255);
+  --popover-foreground: rgb(34, 34, 34);
+  --primary: rgb(34, 34, 34);
+  --primary-foreground: rgb(255, 255, 255);
+  --secondary: rgb(245, 247, 249);
+  --secondary-foreground: rgb(34, 34, 34);
+  --muted: rgb(245, 247, 249);
+  --muted-foreground: rgb(133, 133, 133);
+  --accent: #6a43de;
+  --accent-foreground: rgb(255, 255, 255);
+  --destructive: oklch(0.6368 0.2078 25.3313);
+  --destructive-foreground: oklch(1 0 0);
+  --border: rgb(238, 238, 238);
+  --input: rgb(238, 238, 238);
+  --ring: #6a43de;
+  --chart-1: oklch(0.6843 0.1448 291.7666);
+  --chart-2: oklch(0.6002 0.1861 290.4746);
+  --chart-3: oklch(0.5216 0.2211 287.6748);
+  --chart-4: oklch(0.4484 0.1848 288.9004);
+  --chart-5: oklch(0.3714 0.1454 291.1219);
+  --radius: 0.7rem;
+  --sidebar: oklch(0.9752 0.0034 247.858);
+  --sidebar-foreground: oklch(0.252 0 0);
+  --sidebar-primary: oklch(1 0 0);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(1 0 0);
+  --sidebar-accent-foreground: oklch(0.252 0 0);
+  --sidebar-border: oklch(0.9276 0.0058 264.5313);
+  --sidebar-ring: oklch(1 0 0);
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: Source Serif 4, serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --shadow-color: oklch(0 0 0);
+  --shadow-opacity: 0;
+  --shadow-blur: 0px;
+  --shadow-spread: 0px;
+  --shadow-offset-x: 0;
+  --shadow-offset-y: 1px;
+  --letter-spacing: 0em;
+  --spacing: 0.25rem;
+  --shadow-2xs: 0 1px 2px 0 hsl(240 8% 12% / 0.03);
+  --shadow-xs: 0 1px 2px 0 hsl(240 8% 12% / 0.04);
+  --shadow-sm: 0 2px 8px -3px hsl(240 8% 12% / 0.06), 0 1px 3px -1px hsl(240 8% 12% / 0.04);
+  --shadow: 0 2px 8px -3px hsl(240 8% 12% / 0.06), 0 1px 3px -1px hsl(240 8% 12% / 0.05);
+  --shadow-md: 0 6px 16px -4px hsl(240 8% 12% / 0.08), 0 2px 6px -2px hsl(240 8% 12% / 0.05);
+  --shadow-lg: 0 4px 8px -4px hsl(240 8% 12% / 0.06), 0 12px 20px -6px hsl(240 8% 12% / 0.1);
+  --shadow-xl: 0 12px 24px -8px hsl(240 8% 12% / 0.12), 0 24px 48px -12px hsl(240 8% 12% / 0.1);
+  --shadow-2xl: 0 24px 48px -12px hsl(240 8% 12% / 0.18);
+  --tracking-normal: 0em;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #110d1f;
+  --card: #ffffff;
+  --card-foreground: #110d1f;
+  --popover: #ffffff;
+  --popover-foreground: #110d1f;
+  --primary: #110d1f;
+  --primary-foreground: #ffffff;
+  --secondary: #f7f5fb;
+  --secondary-foreground: #110d1f;
+  --muted: #fbfafe;
+  --muted-foreground: #6b6780;
+  --accent: #7f50ff;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --border: #ece9f4;
+  --input: #dcd8e6;
+  --ring: #7f50ff;
+  --radius: 0.875rem;
+
+  --fp-ink: #110d1f;
+  --fp-muted: #4a465c;
+  --fp-muted2: #6b6780;
+  --fp-line: #ece9f4;
+  --fp-line2: #dcd8e6;
+  --fp-panel: #f7f5fb;
+  --fp-soft: #f4f0ff;
+  --fp-soft-line: #e2daff;
+  --fp-track: #e4e0ee;
+  --fp-field: #fcfbfe;
+  --fp-side: #ffffff;
+  --fp-header: rgba(251, 250, 254, 0.85);
+  --fp-accent-ink: #7f50ff;
+  --fp-accent-hover: #6c3cf5;
+  --fp-code: #110d1f;
+  --fp-green: #16a34a;
+  --fp-amber: #d97706;
+  --fp-red: #dc2626;
+
+  --color-accent: #7f50ff;
+  --color-status-success: #16a34a;
+  --color-status-warning: #d97706;
+  --color-status-pending: #d97706;
+  --color-status-error: #dc2626;
+}
+
+.dark {
+  --background: rgb(16, 16, 17);
+  --foreground: rgb(255, 255, 255);
+  --card: rgb(16, 16, 17);
+  --card-foreground: rgb(255, 255, 255);
+  --popover: rgb(39, 39, 40);
+  --popover-foreground: rgb(255, 255, 255);
+  --primary: rgb(255, 255, 255);
+  --primary-foreground: rgb(16, 16, 17);
+  --secondary: rgb(39, 39, 40);
+  --secondary-foreground: rgb(255, 255, 255);
+  --muted: rgb(7, 8, 10);
+  --muted-foreground: rgb(133, 133, 133);
+  --accent: rgb(127, 80, 255);
+  --accent-foreground: rgb(255, 255, 255);
+  --destructive: oklch(0.6368 0.2078 25.3313);
+  --destructive-foreground: oklch(1 0 0);
+  --border: rgb(39, 39, 40);
+  --input: rgb(39, 39, 40);
+  --ring: rgb(127, 80, 255);
+  --chart-1: oklch(0.6843 0.1448 291.7666);
+  --chart-2: oklch(0.6002 0.1861 290.4746);
+  --chart-3: oklch(0.5216 0.2211 287.6748);
+  --chart-4: oklch(0.4484 0.1848 288.9004);
+  --chart-5: oklch(0.3714 0.1454 291.1219);
+  --radius: 0.7rem;
+  --sidebar: oklch(0.134 0.0051 262.3157);
+  --sidebar-foreground: oklch(0.6167 0 0);
+  --sidebar-primary: oklch(1 0 0);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.1735 0.002 286.1849);
+  --sidebar-accent-foreground: oklch(1 0 0);
+  --sidebar-border: oklch(0.252 0 0);
+  --sidebar-ring: oklch(1 0 0);
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: Source Serif 4, serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --shadow-color: oklch(0 0 0);
+  --shadow-opacity: 0;
+  --shadow-blur: 0px;
+  --shadow-spread: 0px;
+  --shadow-offset-x: 0;
+  --shadow-offset-y: 1px;
+  --letter-spacing: 0em;
+  --spacing: 0.25rem;
+  --shadow-2xs: 0 1px 2px 0 hsl(0 0% 0% / 0.2);
+  --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.25);
+  --shadow-sm: 0 2px 8px -3px hsl(0 0% 0% / 0.35), 0 1px 3px -1px hsl(0 0% 0% / 0.28);
+  --shadow: 0 2px 8px -3px hsl(0 0% 0% / 0.35), 0 1px 3px -1px hsl(0 0% 0% / 0.3);
+  --shadow-md: 0 6px 16px -4px hsl(0 0% 0% / 0.4), 0 2px 6px -2px hsl(0 0% 0% / 0.3);
+  --shadow-lg: 0 4px 8px -4px hsl(0 0% 0% / 0.35), 0 12px 20px -6px hsl(0 0% 0% / 0.45);
+  --shadow-xl: 0 12px 24px -8px hsl(0 0% 0% / 0.55), 0 24px 48px -12px hsl(0 0% 0% / 0.45);
+  --shadow-2xl: 0 24px 48px -12px hsl(0 0% 0% / 0.6);
+}
+
+.dark {
+  --background: #13101d;
+  --foreground: #f3f1f9;
+  --card: #13101d;
+  --card-foreground: #f3f1f9;
+  --popover: #13101d;
+  --popover-foreground: #f3f1f9;
+  --primary: #f3f1f9;
+  --primary-foreground: #09070f;
+  --secondary: #1a1626;
+  --secondary-foreground: #f3f1f9;
+  --muted: #09070f;
+  --muted-foreground: #8c87a1;
+  --accent: #7f50ff;
+  --border: #221d32;
+  --input: #332d47;
+
+  --fp-ink: #f3f1f9;
+  --fp-muted: #b3aec6;
+  --fp-muted2: #8c87a1;
+  --fp-line: #221d32;
+  --fp-line2: #332d47;
+  --fp-panel: #1a1626;
+  --fp-soft: #211941;
+  --fp-soft-line: #3a2c6e;
+  --fp-track: #2e2742;
+  --fp-field: #0f0c18;
+  --fp-side: #0e0b16;
+  --fp-header: rgba(9, 7, 15, 0.8);
+  --fp-accent-ink: #a98bff;
+  --fp-code: #0b0912;
+}
+
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+body {
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  ::-webkit-scrollbar {
+    @apply h-2.5 w-2.5;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full border-[1px] border-solid border-transparent bg-clip-padding;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    letter-spacing: var(--tracking-normal);
+  }
+}
+
+@layer utilities {
+  .text-primary {
+    color: var(--foreground);
+  }
+
+  .text-primary-light {
+    color: var(--muted-foreground);
+  }
+
+  .text-accent {
+    color: var(--accent);
+  }
+
+  .bg-foreground-1 {
+    background-color: var(--background);
+  }
+
+  .bg-foreground-2 {
+    background-color: var(--muted);
+  }
+
+  .bg-foreground-3 {
+    background-color: var(--border);
+  }
+
+  .border-foreground-3 {
+    border-color: var(--border);
+  }
+
+  .bg-accent {
+    background-color: var(--accent);
+  }
+
+  /* Soft accent tint (~10%). A real utility instead of an inline
+	   bg-[color-mix(...)] arbitrary value — the arbitrary form generates a
+	   fragile class token that Lightning CSS can choke on in production builds. */
+  .bg-accent-soft {
+    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  /* Active nav highlight: soft accent fill + a slightly stronger accent
+	   border. One explicit class (not a border- or bg- prefixed name) so it
+	   can't clash with Tailwind color utilities or the base border-color rule. */
+  .fp-nav-active {
+    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  .hover\:bg-accent\/90:hover {
+    background-color: color-mix(in srgb, var(--accent) 90%, transparent);
+  }
+
+  .focus\:border-accent:focus {
+    border-color: var(--accent);
+  }
+
+  .text-status-warning {
+    color: var(--color-status-warning);
+  }
+
+  .text-status-success {
+    color: var(--color-status-success);
+  }
+
+  .text-status-pending {
+    color: var(--color-status-pending);
+  }
+
+  .bg-status-warning {
+    background-color: var(--color-status-warning);
+  }
+
+  .bg-status-success {
+    background-color: var(--color-status-success);
+  }
+
+  .bg-status-pending {
+    background-color: var(--color-status-pending);
+  }
+
+  .border-status-warning {
+    border-color: var(--color-status-warning);
+  }
+
+  .border-status-success {
+    border-color: var(--color-status-success);
+  }
+
+  .border-status-pending {
+    border-color: var(--color-status-pending);
+  }
+
+  .text-status-error {
+    color: var(--color-status-error);
+  }
+
+  .bg-status-error {
+    background-color: var(--color-status-error);
+  }
+
+  .border-status-error {
+    border-color: var(--color-status-error);
+  }
+
+  .bg-status-error\/10 {
+    background-color: color-mix(in srgb, var(--color-status-error) 10%, transparent);
+  }
+
+  .border-status-error\/25 {
+    border-color: color-mix(in srgb, var(--color-status-error) 25%, transparent);
+  }
+
+  /* Futuristic homepage effects */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 30px rgba(127, 80, 255, 0.3);
+  }
+
+  .glow-accent-strong {
+    box-shadow:
+      0 0 50px rgba(127, 80, 255, 0.5),
+      0 0 100px rgba(127, 80, 255, 0.3);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+  }
+
+  .neon-border {
+    border: 1px solid rgba(127, 80, 255, 0.5);
+    box-shadow:
+      0 0 10px rgba(127, 80, 255, 0.3),
+      inset 0 0 10px rgba(127, 80, 255, 0.1);
+  }
+
+  .gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+
+  /* ── Soft, smooth dashboard surfaces ─────────────────────────────────── */
+  /* A smooth, pleasant easing curve reused for all card motion. */
+  .fp-card {
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+    transition:
+      box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease,
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Opt-in hover elevation for interactive cards — gentle float. */
+  .fp-card-hover {
+    transition:
+      box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease,
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .fp-card-hover:hover {
+      box-shadow: var(--shadow-md);
+      border-color: color-mix(in srgb, var(--color-primary) 9%, transparent);
+      transform: translateY(-3px);
+    }
+  }
+
+  /* Gentle entrance: soft fade + rise. Pair with fp-rise-delay-* for stagger. */
+  @keyframes fp-rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .fp-rise {
+    /* `backwards` (not `both`): hold the opacity:0 start during the stagger delay
+       so nothing flashes, but revert to NO transform once the entrance finishes.
+       `both` kept an identity transform on the element forever, which makes it a
+       containing block for position:fixed children — that trapped modal/overlay
+       backdrops (fixed inset-0) inside the content area instead of the viewport. */
+    animation: fp-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+  .fp-rise-delay-1 {
+    animation-delay: 0.06s;
+  }
+  .fp-rise-delay-2 {
+    animation-delay: 0.12s;
+  }
+  .fp-rise-delay-3 {
+    animation-delay: 0.18s;
+  }
+  .fp-rise-delay-4 {
+    animation-delay: 0.24s;
+  }
+
+  /* Hero/stat numerals: tabular figures + tight tracking for a crisp look. */
+  .fp-stat {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+    letter-spacing: -0.02em;
+  }
+
+  /* Small uppercase label above a stat. */
+  .fp-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-size: 0.6875rem;
+    line-height: 1rem;
+    font-weight: 600;
+    color: var(--muted-foreground);
+  }
+
+  /* Hairline divider that respects theme. */
+  .fp-divider {
+    height: 1px;
+    width: 100%;
+    background-color: var(--border);
+  }
+}
+
+/* ============================================================================
+   MOBILE-OPTIMIZED ANIMATIONS
+   - Desktop gets smooth transforms
+   - Mobile gets simpler opacity-only animations
+   - Respects prefers-reduced-motion
+   ============================================================================ */
+
+/* Desktop: Premium Button & Card Interactions */
+@media (hover: hover) and (pointer: fine) {
+  button:not(:disabled):active {
+    transform: scale(0.98);
+  }
+
+  button {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  /* Card Hover Effects - Desktop only */
+  .card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, box-shadow;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+}
+
+/* Mobile: Simplified interactions (no transforms, just opacity) */
+@media (hover: none) or (pointer: coarse) {
+  button {
+    transition: opacity 0.15s ease;
+  }
+
+  button:not(:disabled):active {
+    opacity: 0.7; /* Simple opacity change instead of transform */
+  }
+
+  .card-hover {
+    transition: none; /* No animations on touch devices */
+  }
+
+  /* Disable will-change on mobile to save memory */
+  button,
+  .card-hover {
+    will-change: auto;
+  }
+}
+
+/* Focus States - Always enabled for accessibility */
+*:focus-visible {
+  /* --accent is a hex/rgb color, not HSL channels — hsl(var(--accent)) is
+	   invalid and the browser drops the outline. Use the color token directly. */
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  transition: outline-offset 0.15s ease;
+}
+
+[data-slot='command-input']:focus-visible {
+  outline: none;
+}
+
+/* ============================================================================
+   Toast notifications (filled — Adobe Spectrum "A Soft") — consumed by
+   components/ui/sonner.jsx.
+   Direction: a SOLID per-type colour fill with white text. None of the previous
+   glass card's left accent bar / pale tint wash / gradient icon chip / backdrop
+   blur — that stack reads as an auto-generated-dashboard default, and using
+   colour at ~10% strength (a thin bar on a pale card) gets the colour without
+   the signal. A filled surface uses it at 100%.
+   Per-type fill flows from --fp-accent (set by .fp-toast-<type>). The fills are
+   fixed AA-safe hexes (white text clears 4.5:1) — NOT the app's bright status
+   tokens, which fail contrast under white — and are theme-independent: the toast
+   carries its own saturated ground, so the same fill reads on light and dark.
+   Kept as NAMED utilities (not arbitrary Tailwind colour-mix/gradient classes)
+   because those cross Sonner's DOM boundary and drop out of the prod Turbopack
+   build — a trap this file has hit repeatedly (see the text-colour and
+   close-button notes below).
+   Exception: `loading` steps OUT of the filled family to an Ink dark surface — a
+   spinner spinning on a saturated colour fill reads wrong, so loading is a
+   neutral dark ground with a muted-grey spinner (team decision).
+   ============================================================================ */
+.fp-toast {
+  position: relative;
+  /* FIXED width so a stack of toasts aligns on a single right edge and reads as
+     one system — a content-fit width leaves the stack ragged. This is the prod
+     norm: Sonner's own default is a fixed 356px, and Vercel / Linear / GitHub all
+     use a uniform width. Clamped to the viewport so it goes near-full-width on
+     small screens without a separate media query. Kept in named CSS (not an
+     arbitrary Tailwind width class + an inherited custom property) — those
+     crossed Sonner's DOM boundary and dropped out of the prod Turbopack build. */
+  width: var(--fp-toast-width, 22rem);
+  max-width: calc(100vw - 1.5rem);
+  border-radius: 10px;
+  /* Solid per-type fill; white text drawn on top. */
+  background: var(--fp-accent);
+  box-shadow: 0 12px 30px -14px rgb(0 0 0 / 0.55);
+}
+/* AA-safe fills — white text clears 4.5:1 on each. Warning is a DEEP amber for
+   exactly this reason (bright amber + white fails contrast). */
+.fp-toast-success {
+  --fp-accent: #0a7d42;
+}
+.fp-toast-error {
+  --fp-accent: #c62f2f;
+}
+.fp-toast-info {
+  --fp-accent: #2563eb;
+}
+.fp-toast-warning {
+  --fp-accent: #b45309;
+}
+/* Loading — Ink surface (not a colour fill). Neutral dark ground plus a raised
+   edge so a dark card reads as lifted on a dark page: a hairline border, a 1px
+   outer ring, and an inset top highlight (the dark-surface recipe). The spinner
+   draws muted grey (via the icon override below), not white, so the motion sits
+   calm instead of fighting a saturated colour. */
+.fp-toast-loading {
+  --fp-accent: #1c1a24;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  box-shadow:
+    0 12px 30px -14px rgb(0 0 0 / 0.55),
+    0 0 0 1px rgb(255 255 255 / 0.1),
+    inset 0 1px 0 rgb(255 255 255 / 0.07);
+}
+/* Title + description — white on the fill. Colour lives HERE, in named CSS,
+   pinned !important. Two reasons it can't live on Tailwind classes: (1) an
+   arbitrary Tailwind opacity utility crossed Sonner's DOM boundary and dropped
+   out of the prod Turbopack build, and (2) Sonner injects its OWN ungated
+   [data-description] colour rule that ties our .fp-toast selector on specificity
+   and wins on source order (its <style> loads after this file). */
+.fp-toast [data-title] {
+  color: #fff !important;
+}
+.fp-toast [data-description] {
+  color: rgb(255 255 255 / 0.85) !important;
+}
+/* Text action ("Retry" / "View cart") — a white underline, not a pill. Sonner
+   tags the action button [data-button][data-action]; styled here (with the
+   right-push margin) so the look survives the prod build. */
+.fp-toast [data-button][data-action] {
+  align-self: center;
+  margin: 0 0 0 auto !important;
+  padding: 0 0 1px !important;
+  height: auto !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  border-bottom: 1.5px solid rgb(255 255 255 / 0.65) !important;
+  background: transparent !important;
+  color: #fff !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: border-color 150ms ease;
+}
+.fp-toast [data-button][data-action]:hover {
+  border-bottom-color: #fff !important;
+}
+/* Cancel action (rare) — a plain muted-white label, no box. */
+.fp-toast [data-button][data-cancel] {
+  align-self: center;
+  margin: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: rgb(255 255 255 / 0.72) !important;
+  font-size: 11px;
+  font-weight: 600;
+}
+/* Close button — always visible, top-right, white. Styled here (not via Tailwind
+   utilities that dropped out of the prod build) and matched on Sonner's
+   [data-close-button] data attribute so it wins regardless of unstyled state.
+   In unstyled mode Sonner's own close-button rules are gated on
+   [data-styled='true'] and never apply, so this is the sole source of truth. */
+.fp-toast [data-close-button] {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border-radius: 0.375rem;
+  /* !important overrides Sonner's ungated dark-theme close-button rule
+     ([data-sonner-toaster][data-sonner-theme='dark'] … [data-close-button],
+     specificity 0,4,0) which otherwise wins the background/border/color. */
+  border: 0 !important;
+  background: transparent !important;
+  color: rgb(255 255 255 / 0.82) !important;
+  opacity: 1 !important;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    color 150ms ease;
+}
+.fp-toast [data-close-button] > svg {
+  width: 1rem;
+  height: 1rem;
+}
+.fp-toast [data-close-button]:hover {
+  background: rgb(255 255 255 / 0.16) !important;
+  color: #fff !important;
+}
+.fp-toast [data-close-button]:focus-visible {
+  outline: 2px solid rgb(255 255 255 / 0.5);
+  outline-offset: 2px;
+}
+/* Icon — the state glyph in white on the fill (no chip). */
+.fp-toast-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #fff;
+  opacity: 0.96;
+}
+/* On the Ink loading surface the spinner is a muted grey, not white. */
+.fp-toast-loading .fp-toast-icon {
+  color: #b0abbe;
+  opacity: 1;
+}
+/* Cart toast only (`fp-toast-cart`, set in cartToast.jsx): the cart glyph sits in
+   a subtle translucent chip — a small "product slot" cue for the add-to-cart
+   moment. Translucent (not opaque) so it reads as part of the fill rather than a
+   sticker on top; system toasts keep their bare glyph, per the A Soft direction. */
+.fp-toast-cart .fp-toast-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 8px;
+  background: rgb(255 255 255 / 0.16);
+}
+
+
+:is(code, kbd, pre, samp, .font-mono) {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+}
+
+::selection {
+  background-color: #7f50ff;
+  color: #fff;
+}
+
+.fp-nav-active {
+  background-color: var(--fp-soft);
+  border-color: transparent;
+}
+
+.bg-accent-soft {
+  background-color: var(--fp-soft);
+}
+
+@keyframes fp-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fp-page-in {
+  animation: fp-in 0.3s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fp-page-in {
+    animation: none;
+  }
+}
+
+/* Hairline borders do the separation in the redesign — flat surfaces. */
+:root {
+  --shadow-2xs: none;
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow: none;
+  --shadow-md: 0 18px 40px -16px rgba(40, 20, 90, 0.35);
+  --shadow-lg: 0 18px 40px -16px rgba(40, 20, 90, 0.35);
+}
+
+.fp-card,
+[data-slot='card'] {
+  border-radius: 14px;
+  border-color: var(--fp-line);
+  box-shadow: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .fp-card-hover:hover {
+    box-shadow: none;
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+}
+
+[data-slot='button'] {
+  border-radius: 10px;
+  font-weight: 500;
+}
+[data-slot='button'][data-size='sm'] {
+  border-radius: 8px;
+}
+[data-slot='button'][data-variant='default'] {
+  font-weight: 600;
+}
+[data-slot='button'][data-variant='default']:hover {
+  background-color: var(--fp-accent-hover);
+}
+[data-slot='button'][data-variant='outline'] {
+  background-color: var(--card);
+  border-color: var(--fp-line2);
+  color: var(--fp-ink);
+}
+[data-slot='button'][data-variant='outline']:hover {
+  background-color: var(--card);
+  border-color: var(--accent);
+  color: var(--fp-ink);
+}
+[data-slot='button'][data-variant='ghost']:hover {
+  background-color: var(--fp-panel);
+  color: var(--fp-ink);
+}
+
+:is(
+    [data-slot='dropdown-menu-item'],
+    [data-slot='dropdown-menu-checkbox-item'],
+    [data-slot='dropdown-menu-radio-item'],
+    [data-slot='select-item'],
+    [data-slot='dropdown-menu-sub-trigger']
+  ):focus {
+  background-color: var(--fp-panel);
+  color: var(--fp-ink);
+}
+:is(
+    [data-slot='dropdown-menu-content'],
+    [data-slot='select-content'],
+    [data-slot='popover-content']
+  ) {
+  border-color: var(--fp-line);
+  border-radius: 12px;
+}
+
+:is([data-slot='input'], [data-slot='textarea'], [data-slot='select-trigger']) {
+  background-color: var(--fp-field);
+  border-color: var(--fp-line2);
+  border-radius: 10px;
+  box-shadow: none;
+}
+:is([data-slot='input'], [data-slot='textarea'], [data-slot='select-trigger']):focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(127, 80, 255, 0.15);
+}

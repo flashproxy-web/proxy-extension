@@ -1,0 +1,25 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/popup/app/entrypoint/main.tsx",
+    "src/dashboard/app/entrypoint/main.tsx",
+    "src/welcome/app/entrypoint/main.tsx",
+    "src/background/index.ts",
+    "scripts/*.{mjs,ts}",
+    "steiger.config.ts"
+  ],
+  "project": [
+    "src/**/*.{ts,tsx}",
+    "scripts/**/*.{mjs,ts}"
+  ],
+  "ignore": [
+    "src/shared/ui/*-*.tsx",
+    "src/shared/ui/{alert,avatar,badge,button,card,command,dialog,form,input,label,popover,separator,sheet,skeleton,sonner,switch,table,tabs,textarea,toggle,tooltip}.tsx"
+  ],
+  "ignoreDependencies": [
+    "flag-icons",
+    "tailwindcss",
+    "tw-animate-css"
+  ],
+  "ignoreExportsUsedInFile": true
+}

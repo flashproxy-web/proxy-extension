@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Proxy Management Extension by FlashProxy",
+  "short_name": "FlashProxy",
+  "version": "0.3.0",
+  "description": "Switch between your FlashProxy plans and your own proxies, with smart rules.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwg0o8bVmThiYmuD89b0fNu5HVJUb0lZLXpZOCWg/Ps0NmUcqRvs/omG+P738S0XcM1+ItB3DDkGqiq8/yLhmm68mGuA40r5tvGkwug/DPO4Z/FviFZh7SybEWd7qMSH6wOSTm8zpntBZWdFDyWX4ooKWt7si0LmTTGtTCD1QbGFzBoZy40rqQ5nVGqv/+Si18T9vI4fHsfs7Ljj2mD8+wgf76QRcGMzRJGc3LUvbC23ofDAe0do33Ar7TTbZWvnX7JRqtEZHPqDgAgFzhTQnc5siIRKSP+LCyUW8GgOrGIZt1mNNP5yEKalmz36GAlYMbWJ3mA8lG0+eBsMJjj3ybwIDAQAB",
+  "minimum_chrome_version": "116",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "proxy",
+    "storage",
+    "alarms",
+    "activeTab",
+    "webRequest",
+    "webRequestAuthProvider",
+    "browsingData"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "FlashProxy",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "options_page": "dashboard.html"
+}

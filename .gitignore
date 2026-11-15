@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.cache/
+e2e/out/
+.env
+key.pem
