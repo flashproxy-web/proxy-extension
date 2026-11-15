@@ -8,7 +8,7 @@ export function WelcomeHeader() {
     <header className="mx-auto flex max-w-240 items-center gap-2.5 px-6 pt-6">
       <FlashProxyStar />
       <span className="text-base font-bold tracking-tight">FlashProxy</span>
-      <span className="text-fp-muted2 text-sm">Switcher</span>
+      <span className="text-fp-muted2 text-sm">Proxy Manager</span>
       <span className="flex-1" />
       <Button
         variant="link"

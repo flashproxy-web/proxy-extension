@@ -1,13 +1,29 @@
 import type { EngineApi, RpcMethod } from '@/shared/api/client';
 import { NOT_AVAILABLE } from '@/shared/api/fallback';
-import { EXT_PAGE, FP_LINKS, TOAST_OK, extensionDetailsUrl, CHROME_EXTENSIONS_URL } from '@/shared/config';
+import {
+  EXT_PAGE,
+  FP_LINKS,
+  TOAST_OK,
+  extensionDetailsUrl,
+  CHROME_EXTENSIONS_URL,
+} from '@/shared/config';
 import { countryName } from '@/shared/lib/countries';
 import { connectViaPlan } from '@/shared/lib/plans';
 import { ruleType } from '@/shared/lib/routing';
 import type { Action, OpenTarget, Rule } from '@/shared/model';
 
 import { closeSignIn, openSignIn, refreshAccount, setApiKey, signOut } from './account';
-import { connect, disconnect, isLive, nextProxy, reconnectIfLive, reroute, rotate, setMode, toggle } from './connection';
+import {
+  connect,
+  disconnect,
+  isLive,
+  nextProxy,
+  reconnectIfLive,
+  reroute,
+  rotate,
+  setMode,
+  toggle,
+} from './connection';
 import {
   addProxy,
   deleteProxy,
@@ -75,13 +91,21 @@ export async function handleAction(action: Action): Promise<void> {
       setSettings({ location: plan ? validLocation(plan, action.location) : action.location });
       return reconnectIfLive({
         transition: 'rotating',
-        toast: { text: 'Now exiting in ' + countryName(current().settings.location.cc), icon: 'check', color: TOAST_OK },
+        toast: {
+          text: 'Now exiting in ' + countryName(current().settings.location.cc),
+          icon: 'check',
+          color: TOAST_OK,
+        },
       });
     }
     case 'connectVia': {
       const plan = connectViaPlan(current());
       if (!plan) return;
-      setSettings({ location: validLocation(plan, action.location), active: { kind: 'fp', planId: plan.id }, lastPlanId: plan.id });
+      setSettings({
+        location: validLocation(plan, action.location),
+        active: { kind: 'fp', planId: plan.id },
+        lastPlanId: plan.id,
+      });
       return connect();
     }
     case 'setSession':
@@ -94,7 +118,11 @@ export async function handleAction(action: Action): Promise<void> {
       return setMode(action.mode);
     case 'toggleFavourite': {
       const on = settings.favourites.includes(action.cc);
-      return setSettings({ favourites: on ? settings.favourites.filter((code) => code !== action.cc) : [...settings.favourites, action.cc] });
+      return setSettings({
+        favourites: on
+          ? settings.favourites.filter((code) => code !== action.cc)
+          : [...settings.favourites, action.cc],
+      });
     }
     case 'setSiteRule': {
       const { [action.domain]: _prev, ...rest } = settings.siteRules;
@@ -118,7 +146,9 @@ export async function handleAction(action: Action): Promise<void> {
   }
 }
 
-const RPC: Partial<{ [K in RpcMethod]: (...args: Parameters<EngineApi[K]>) => ReturnType<EngineApi[K]> }> = {
+const RPC: Partial<{
+  [K in RpcMethod]: (...args: Parameters<EngineApi[K]>) => ReturnType<EngineApi[K]>;
+}> = {
   addProxy,
   updateProxy: async (id, draft) => {
     const proxy = await updateProxy(id, draft);
@@ -153,7 +183,13 @@ const RPC: Partial<{ [K in RpcMethod]: (...args: Parameters<EngineApi[K]>) => Re
   addRule: async (pattern, target) => {
     const trimmed = pattern.trim();
     if (!trimmed) throw new Error('Type a site pattern first');
-    const rule: Rule = { id: crypto.randomUUID(), pattern: trimmed, type: ruleType(trimmed), target, enabled: true };
+    const rule: Rule = {
+      id: crypto.randomUUID(),
+      pattern: trimmed,
+      type: ruleType(trimmed),
+      target,
+      enabled: true,
+    };
     commit({ rules: [rule, ...current().rules] });
     await reroute();
     return rule;

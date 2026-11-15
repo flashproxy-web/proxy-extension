@@ -28,19 +28,22 @@ chrome.runtime.onConnect.addListener((port) => {
   void whenReady().then(() => refreshIfStale());
 });
 
-chrome.runtime.onMessage.addListener((message: RuntimeMessage, _sender, reply: (response: RpcResponse) => void) => {
-  if (message.type === 'action') {
-    void whenReady().then(() => handleAction(message.action));
-    return false;
+chrome.runtime.onMessage.addListener(
+  (message: RuntimeMessage, _sender, reply: (response: RpcResponse) => void) => {
+    if (message.type === 'action') {
+      void whenReady().then(() => handleAction(message.action));
+      return false;
+    }
+    whenReady()
+      .then(() => handleRpc(message.method, message.args))
+      .then(
+        (value) => reply({ ok: true, value }),
+        (error: unknown) =>
+          reply({ ok: false, error: error instanceof Error ? error.message : String(error) })
+      );
+    return true;
   }
-  whenReady()
-    .then(() => handleRpc(message.method, message.args))
-    .then(
-      (value) => reply({ ok: true, value }),
-      (error: unknown) => reply({ ok: false, error: error instanceof Error ? error.message : String(error) })
-    );
-  return true;
-});
+);
 
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === REFRESH_ALARM) void whenReady().then(() => refreshAccount());
@@ -51,7 +54,8 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 chrome.runtime.onInstalled.addListener((details) => {
   void chrome.alarms.create(REFRESH_ALARM, { periodInMinutes: REFRESH_MINUTES });
   void dropLegacySession();
-  if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) void chrome.tabs.create({ url: chrome.runtime.getURL(EXT_PAGE.welcome) });
+  if (details.reason === chrome.runtime.OnInstalledReason.INSTALL)
+    void chrome.tabs.create({ url: chrome.runtime.getURL(EXT_PAGE.welcome) });
 });
 
 chrome.runtime.onStartup.addListener(() => {

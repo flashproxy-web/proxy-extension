@@ -39,7 +39,7 @@ export interface EngineApi {
     items: { protocol: Protocol; host: string; port: number; username: string; password: string }[],
     mode: 'separate' | 'pool',
     providerId: string,
-    poolName: string,
+    poolName: string
   ): Promise<number>;
   addRule(pattern: string, target: RuleTarget): Promise<Rule>;
   setRules(rules: Rule[]): Promise<void>;
@@ -53,16 +53,25 @@ export interface EngineApi {
 export type RpcMethod = keyof EngineApi;
 
 interface Client {
-  subscribe(onSnapshot: (snapshot: Snapshot) => void, onDisconnect?: () => void, onToast?: (toast: Toast) => void): () => void;
+  subscribe(
+    onSnapshot: (snapshot: Snapshot) => void,
+    onDisconnect?: () => void,
+    onToast?: (toast: Toast) => void
+  ): () => void;
   send(action: Action): void;
-  call<K extends RpcMethod>(method: K, ...args: Parameters<EngineApi[K]>): Promise<Awaited<ReturnType<EngineApi[K]>>>;
+  call<K extends RpcMethod>(
+    method: K,
+    ...args: Parameters<EngineApi[K]>
+  ): Promise<Awaited<ReturnType<EngineApi[K]>>>;
 }
 
 function extensionClient(): Client {
   return {
     subscribe(onSnapshot, onDisconnect, onToast) {
       const port = chrome.runtime.connect({ name: SNAPSHOT_PORT });
-      port.onMessage.addListener((message: PortMessage) => (message.type === 'snapshot' ? onSnapshot(message.snapshot) : onToast?.(message.toast)));
+      port.onMessage.addListener((message: PortMessage) =>
+        message.type === 'snapshot' ? onSnapshot(message.snapshot) : onToast?.(message.toast)
+      );
       port.onDisconnect.addListener(() => onDisconnect?.());
       return () => port.disconnect();
     },

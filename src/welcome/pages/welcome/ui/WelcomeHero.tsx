@@ -17,7 +17,7 @@ export function WelcomeHero({ completedSteps }: { completedSteps: number }) {
         Welcome to {PRODUCT_NAME}
       </h1>
       <p className="text-fp-muted mt-3.5 text-base leading-relaxed">
-        Three quick steps and you're ready to switch locations from the toolbar.
+        Two quick steps and you're ready to switch locations from the toolbar.
       </p>
       <SetupProgress completedSteps={completedSteps} />
     </div>

@@ -1,0 +1,76 @@
+name: Bug report
+description: Something in the extension does not work as expected.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. For account or billing questions, contact FlashProxy support instead.
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      description: From the browser's About page.
+      placeholder: Chrome 131.0.6778.86, Brave 1.73.97, Edge 131
+    validations:
+      required: true
+  - type: input
+    id: extension-version
+    attributes:
+      label: Extension version
+      description: Shown on chrome://extensions, or the commit hash if you built it yourself.
+      placeholder: 0.3.0
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode
+      options:
+        - Direct
+        - Global
+        - Smart
+        - System
+        - Not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: source
+    attributes:
+      label: Proxy source
+      options:
+        - FlashProxy plan
+        - Own proxy (another provider)
+        - Both
+        - Not relevant
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the popup
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include error messages and, if useful, the service worker console output (chrome://extensions, "Inspect views").
+    validations:
+      required: true
+  - type: checkboxes
+    id: secrets
+    attributes:
+      label: Credentials
+      options:
+        - label: I removed API keys, proxy usernames and passwords from everything above, including screenshots and logs.
+          required: true

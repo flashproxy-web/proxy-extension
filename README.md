@@ -1,116 +1,150 @@
+<div align="center">
+
+<img src="public/icons/icon128.png" width="88" height="88" alt="">
+
 # Proxy Management Extension by FlashProxy
 
-![Proxy Management Extension by FlashProxy](store/screenshot-1-1280x800.png)
+**Switch between your FlashProxy plans and proxies from any provider, with per-site rules.**
 
-A Manifest V3 browser extension for Chrome and other Chromium browsers (Brave, Edge) that switches between your [FlashProxy](https://www.flashproxy.com) plans and proxies from any other provider, with per-site rules. React + TypeScript + Vite. It has three surfaces:
+A Manifest V3 extension for Chrome, Brave, Edge and other Chromium browsers.
 
-- **Toolbar popup**, in two layouts the user switches between in its header:
-  - **Simple** (default for new users): power button, Connect via (locations and own proxies in one list), Use proxy on this site, New IP.
-  - **Pro**: modes, location picker, sticky/rotating sessions, the site card, `/` commands, account menu.
-- **Dashboard** (`dashboard.html`, also the options page): Proxies, Rules, Settings.
-- **Welcome page** (`welcome.html`): opens once on install. It covers pinning, adding the API key and the Simple/Pro choice.
+[![CI](https://github.com/flashproxy-web/proxy-extension/actions/workflows/ci.yml/badge.svg)](https://github.com/flashproxy-web/proxy-extension/actions/workflows/ci.yml)
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-7F50FF)](LICENSE)
+![Manifest V3](https://img.shields.io/badge/manifest-v3-4285F4)
+![Chrome 116+](https://img.shields.io/badge/chrome-116%2B-34A853)
 
-**FlashProxy plans and own proxies.** The background service worker (`src/background/`) uses the customer's own FlashProxy API key (created in Settings → API on flashproxy.com, with the Proxies permission; the extension checks the permission with `GET /api/v1/key` before saving it and keeps the key sealed like own-proxy logins), loads plans and locations from `/api/v1`, and connects through them: it requests a gateway from `POST /api/v1/plans/{id}/proxies` for the chosen country and session type, applies it with `chrome.proxy`, answers the gateway's auth challenge, and checks the exit IP. Rotate, sticky-session renewal, location and session changes, Global/Smart/Direct modes, per-site rules and health checks all work. Own proxies work without signing in: add, edit, duplicate, move, delete with undo, bulk import, pools with round-robin/random/lowest-latency/failover, Next proxy, and tests that route only `api.country.is` through the proxy under test. Their logins are sealed with AES-GCM using a non-extractable key kept in IndexedDB. In Smart mode the Rules page routes traffic: domain, wildcard, regex and IP-range rules send a site to a FlashProxy plan, an own proxy or pool, Direct or Block. Popup site rules win, everything else goes direct, and a rule whose proxy can't be reached blocks the site instead of leaking it. HTTP calls go through axios. Identity protection isn't wired yet. Opened outside the extension, the pages fall back to an empty snapshot.
+<img src="docs/screenshots/popup-pro.png" width="300" alt="Popup connected through a FlashProxy plan in Germany">
+&nbsp;&nbsp;
+<img src="docs/screenshots/popup-simple.png" width="300" alt="Simple popup layout with one power button">
+
+</div>
+
+## Features
+
+- **FlashProxy plans, built in.** Paste an API key from your FlashProxy account and your Residential, ISP, Datacenter and Mobile plans show up with their data left, locations and renewal dates.
+- **Any other provider too.** Add HTTP, HTTPS and SOCKS proxies from any provider (Chromium can't send a login to a SOCKS proxy, so those need an IP allowlist), or bulk-import a list in the common formats. The extension recognises well-known providers from the host name.
+- **Pools.** Group proxies and pick round-robin, random, lowest latency or failover.
+- **Four modes.** Direct, Global (everything through the proxy), Smart (only the sites your rules match) and System.
+- **Per-site rules.** Domain, wildcard, regex and IP-range rules send a site through a plan, one of your proxies, a pool, direct, or block it. A rule whose proxy can't be reached blocks the site instead of leaking it.
+- **Location and sessions.** Pick a country, keep a sticky session or rotate, and get a new IP in one click.
+- **Health checks.** Exit IP, ISP and latency on connect, a test for every proxy, and a fix-it message when something fails.
+- **Two popup layouts.** Simple (one power button) for most people, Pro for everything above. Light and dark themes.
 
 ## Screenshots
 
-Taken from the earlier dev preview with sample data, before the business logic was removed. The current build shows each screen's empty state instead.
-
-### Popup
-
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/popup-connected.png" width="200" alt="Connected in Global mode"><br><sub>Connected · Global</sub></td>
-    <td align="center"><img src="docs/screenshots/popup-smart.png" width="200" alt="Smart mode"><br><sub>Smart mode (rules)</sub></td>
-    <td align="center"><img src="docs/screenshots/popup-locations.png" width="200" alt="Location picker"><br><sub>Locations + favourites</sub></td>
-    <td align="center"><img src="docs/screenshots/popup-own-proxy.png" width="200" alt="Own proxy connected"><br><sub>Own proxy</sub></td>
+    <td align="center"><img src="docs/screenshots/popup-onboarding.png" width="220" alt="First run"><br><sub>First run</sub></td>
+    <td align="center"><img src="docs/screenshots/popup-api-key.png" width="220" alt="Adding a FlashProxy API key"><br><sub>Add your API key</sub></td>
+    <td align="center"><img src="docs/screenshots/popup-locations.png" width="220" alt="Location picker"><br><sub>Locations and favourites</sub></td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/screenshots/popup-onboarding.png" width="200" alt="First run"><br><sub>First run</sub></td>
-    <td align="center"><img src="docs/screenshots/popup-auth-error.png" width="200" alt="Proxy authentication failed"><br><sub>Error state</sub></td>
-    <td align="center"><img src="docs/screenshots/popup-dark.png" width="200" alt="Dark theme"><br><sub>Dark theme</sub></td>
+    <td align="center"><img src="docs/screenshots/popup-smart.png" width="220" alt="Smart mode"><br><sub>Smart mode with rules</sub></td>
+    <td align="center"><img src="docs/screenshots/popup-own-proxy.png" width="220" alt="Connected through an own proxy"><br><sub>Your own proxy</sub></td>
+    <td align="center"><img src="docs/screenshots/popup-dark.png" width="220" alt="Dark theme"><br><sub>Dark theme</sub></td>
   </tr>
 </table>
 
-### Dashboard
-
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/dashboard-plans.png" alt="FlashProxy plans"><br><sub>FlashProxy plans</sub></td>
-    <td align="center"><img src="docs/screenshots/dashboard-own-proxies.png" alt="Own proxies grouped by provider"><br><sub>Own proxies, grouped by provider</sub></td>
+    <td align="center"><img src="docs/screenshots/dashboard-plans.png" alt="FlashProxy plans in the dashboard"><br><sub>FlashProxy plans</sub></td>
+    <td align="center"><img src="docs/screenshots/dashboard-own-proxies.png" alt="Own proxies grouped by provider"><br><sub>Your proxies, grouped by provider</sub></td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/screenshots/dashboard-add-proxy.png" alt="Add proxy drawer"><br><sub>Add proxy (detects the provider, tests before saving)</sub></td>
+    <td align="center"><img src="docs/screenshots/dashboard-add-proxy.png" alt="Add proxy drawer"><br><sub>Add a proxy</sub></td>
     <td align="center"><img src="docs/screenshots/dashboard-import.png" alt="Bulk import"><br><sub>Bulk import with preview</sub></td>
   </tr>
   <tr>
     <td align="center"><img src="docs/screenshots/dashboard-rules.png" alt="Rules"><br><sub>Rules, with a URL tester</sub></td>
-    <td align="center"><img src="docs/screenshots/dashboard-settings.png" alt="Settings"><br><sub>Settings: theme and popup layout</sub></td>
-  </tr>
-  <tr>
     <td align="center"><img src="docs/screenshots/dashboard-dark.png" alt="Dashboard in dark theme"><br><sub>Dark theme</sub></td>
-    <td align="center"><img src="docs/screenshots/welcome.png" alt="Welcome page"><br><sub>Welcome page (opens on install)</sub></td>
   </tr>
 </table>
 
-### Chrome Web Store assets
+The screenshots come from the real extension, driven by `npm run shots` against a local mock of the FlashProxy API. Every account, address and host in them is made up.
 
-<table>
-  <tr>
-    <td><img src="store/screenshot-2-1280x800.png" alt="Store screenshot 2"></td>
-    <td><img src="store/screenshot-3-1280x800.png" alt="Store screenshot 3"></td>
-  </tr>
-  <tr>
-    <td><img src="store/screenshot-4-1280x800.png" alt="Store screenshot 4"></td>
-    <td><img src="store/screenshot-5-1280x800.png" alt="Store screenshot 5"></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="store/promo-440x280.png" width="300" alt="Promo tile"><br><sub>Promo tile 440×280</sub></td>
-    <td align="center"><img src="store/store-icon-128.png" width="96" alt="Store icon"><br><sub>Store icon 128×128</sub></td>
-  </tr>
-</table>
+## Install
 
-## Build and load
+The extension isn't in the Chrome Web Store yet. To install it from source:
+
+1. Install [Node.js](https://nodejs.org/) 22 or newer.
+2. Build it:
+
+   ```bash
+   git clone https://github.com/flashproxy-web/proxy-extension.git
+   cd proxy-extension
+   npm install
+   npm run build
+   ```
+
+3. Open `chrome://extensions` (`brave://extensions` in Brave, `edge://extensions` in Edge), turn on **Developer mode**, click **Load unpacked** and choose the `dist` folder.
+4. Pin the extension from the puzzle-piece menu in the toolbar.
+
+## Getting started
+
+**With a FlashProxy account.** On [flashproxy.com](https://www.flashproxy.com), open **Dashboard → Settings → API** and create a key with the **Proxies** permission. Paste it into the popup (or the extension's **Settings** page) and your plans load. Pick a location and press the power button.
+
+**With proxies from another provider.** Choose **Use my own proxies** in the popup, or open the dashboard and click **Add proxy** or **Import**. No account is needed.
+
+You can use both side by side: rules can send one site through a FlashProxy plan and another through your own proxy.
+
+## Privacy and permissions
+
+Your FlashProxy API key and your proxy logins are stored on your device, encrypted with AES-GCM under a key that can't be exported from the browser. The API key is only sent to flashproxy.com, and your own proxies and their logins are never sent to FlashProxy. There is no analytics or tracking in the extension.
+
+| Permission                             | Why                                                                                                                   |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `proxy`                                | Points the browser at the proxy you picked, or installs the PAC script for Smart mode.                                |
+| `webRequest`, `webRequestAuthProvider` | Answers the proxy's login prompt, so you aren't asked for the password on every site.                                 |
+| `<all_urls>` (host access)             | Needed for the proxy login on any site you visit through the proxy.                                                   |
+| `storage`                              | Keeps your settings, proxies and rules.                                                                               |
+| `alarms`                               | Renews sticky sessions, refreshes your plans and runs health checks.                                                  |
+| `activeTab`                            | Shows the current site's rule in the popup.                                                                           |
+| `browsingData`                         | Clears the cookies a proxy gateway set for a previous login when you switch to a different login on the same gateway. |
+
+The extension talks to these services:
+
+| Host                        | When                                                                                                                              |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `www.flashproxy.com`        | With an API key only: loads your plans and creates proxy logins (`/api/v1`).                                                      |
+| `ipinfo.io`, `v6.ipinfo.io` | After you connect, through the proxy, to show the exit IP, ISP and location. After you disconnect, directly, to show your own IP. |
+| `cp.cloudflare.com`         | Measures latency through the proxy.                                                                                               |
+| `api.country.is`            | Tests a proxy, and is the fallback when ipinfo.io doesn't answer.                                                                 |
+
+## Development
 
 ```bash
 npm install
-cp .env.example .env
-npm run build
+npm run dev      # pages in a normal tab: http://localhost:5173/popup.html
 ```
 
-`VITE_FP_WEB` in `.env` is optional and defaults to `https://www.flashproxy.com`. No other configuration is needed: users paste their API key into the popup or the dashboard's Settings page.
+The dev server serves `popup.html`, `dashboard.html?page=proxies&tab=own` (`page` is `proxies`, `rules` or `settings`) and `welcome.html`. Outside the extension they show an empty state. Build with `npm run build` and load `dist` to try the real thing. `VITE_FP_WEB` (see `.env.example`) points the build at another FlashProxy server and defaults to `https://www.flashproxy.com`.
 
-Then open `chrome://extensions`, enable Developer mode, choose **Load unpacked** and pick `dist/`.
+| Script                             | What it does                                                                                                                                                                                                                                              |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run build`                    | Typecheck, then build the extension into `dist/`.                                                                                                                                                                                                         |
+| `npm test`                         | `pac-check`, a build and the end-to-end suite.                                                                                                                                                                                                            |
+| `npm run pac-check`                | Checks the generated PAC script against the TypeScript rule matcher, including hosts and rules that try to break out of their strings.                                                                                                                    |
+| `npm run e2e`                      | Loads `dist` in headless Chrome for Testing (downloaded into `.cache/` on first run) with local test proxies: connecting, wrong passwords, proxy tests, Smart-mode rules, import and undo, and logins surviving a browser restart. Needs internet access. |
+| `npm run lint`, `npm run lint:fsd` | ESLint, and the [Feature-Sliced Design](https://fsd.how/) layer check.                                                                                                                                                                                    |
+| `npm run typecheck`                | TypeScript only.                                                                                                                                                                                                                                          |
+| `npm run shots`                    | Rebuilds the screenshots in `docs/screenshots` (needs `openssl`).                                                                                                                                                                                         |
 
-## Tests
+### Project structure
 
-```bash
-npm test
-```
+| Path                                           | Role                                                                                                                                                                                                                                                      |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/background/`                              | The service worker: the stored API key (`api/apiKey.ts`), the FlashProxy API client (`api/flashproxy.ts`), plans (`account.ts`, `plans.ts`), connecting and rotating (`connection.ts`), and `chrome.proxy`, proxy logins and the exit probe (`proxy.ts`). |
+| `src/popup/`, `src/dashboard/`, `src/welcome/` | The three pages. Each is its own Feature-Sliced Design tree (`app`, `pages`, `widgets`, `entities`, `shared`).                                                                                                                                            |
+| `src/shared/`                                  | Domain types, the page client and messages to the service worker, config, the UI kit (shadcn/ui on Radix) and styles.                                                                                                                                     |
+| `e2e/`, `scripts/`                             | The end-to-end suite and its test proxy, the PAC check, the build and the screenshot script.                                                                                                                                                              |
 
-`npm run pac-check` runs the generated PAC script against the TypeScript rule matcher, including hosts and site rules that try to break out of their strings. `npm run e2e` loads `dist/` in Chrome for Testing (downloaded into `.cache/` on first run) with two local test proxies and checks connecting, wrong passwords on a shared gateway, proxy tests, Smart-mode rules, import and undo, bundled flags, and that tabs keep their proxy login after a browser restart. It needs internet access. `npm test` runs both around a build.
-
-## Dev server
-
-```bash
-npm run dev
-```
-
-The pages also run in a normal browser tab: `http://localhost:5173/popup.html`, `/dashboard.html?page=proxies&tab=own` (`page` = `proxies | rules | settings`) and `/welcome.html`.
-
-## How it works
-
-| Path | Role |
-|---|---|
-| `src/popup/`, `src/dashboard/`, `src/welcome/` | The three extension pages. Each is its own [Feature-Sliced Design](https://fsd.how/) tree (`app`, `pages`, `widgets`, `entities`, `shared`), checked by `npm run lint:fsd`. |
-| `src/background/` | Service worker: the stored API key (`api/apiKey.ts`), the FlashProxy API client (`api/flashproxy.ts`), plan loading (`account.ts`, `plans.ts`), connecting and rotating (`connection.ts`), and `chrome.proxy` + proxy auth + exit probe (`proxy.ts`). |
-| `src/shared/api/` | The page client (a snapshot port plus action and RPC messages, falling back to `EMPTY_SNAPSHOT` outside the extension) and the `EngineApi` type the pages call. |
-| `src/shared/lib/` | Formatting, flags and country names, plus fallback versions of the routing, import and plan helpers that return neutral results. |
-| `src/shared/` | Domain types (`model`), config, the UI kit (`ui`) and styles. |
+Built with React 19, TypeScript, Vite, Tailwind CSS 4, shadcn/ui and the React Compiler.
 
 ## Contributing
 
-Issues and pull requests are welcome. Before opening a pull request, run `npm run lint`, `npm run lint:fsd` and `npm test`.
+Bug reports, ideas and pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) first, and the [code of conduct](CODE_OF_CONDUCT.md). Please don't post API keys or proxy passwords in issues.
+
+To report a security problem, use a [private security advisory](https://github.com/flashproxy-web/proxy-extension/security/advisories/new), not a public issue. See [SECURITY.md](SECURITY.md).
 
 ## License
 

@@ -35,14 +35,14 @@ export function Sidebar({
         {narrow ? null : (
           <div className="flex flex-col leading-tight">
             <span className="text-lg font-bold tracking-tight whitespace-nowrap">FlashProxy</span>
-            <span className="text-fp-muted2 text-xs">Switcher</span>
+            <span className="text-fp-muted2 text-xs">Proxy Manager</span>
           </div>
         )}
       </div>
       <nav className="flex flex-col gap-0.5 px-3 py-4">
         {narrow ? null : (
           <div className="text-fp-muted2 px-2.5 pb-1.5 text-xs font-semibold tracking-widest whitespace-nowrap uppercase">
-            Switcher
+            Proxy Manager
           </div>
         )}
         {PAGES.map((entry) => (

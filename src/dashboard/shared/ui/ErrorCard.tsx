@@ -27,9 +27,7 @@ export function ErrorCard({ retry }: { retry: () => void }) {
         <Button
           variant="outline"
           onClick={() =>
-            void navigator.clipboard.writeText(
-              `${PRODUCT_NAME} ${VERSION} · ${WORKER_ERROR_CODE}`
-            )
+            void navigator.clipboard.writeText(`${PRODUCT_NAME} ${VERSION} · ${WORKER_ERROR_CODE}`)
           }
         >
           Copy error details

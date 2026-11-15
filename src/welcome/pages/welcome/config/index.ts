@@ -96,7 +96,11 @@ export const SIGN_IN_COPY = {
   idle: 'Add your FlashProxy API key in the extension’s settings to load your plans.',
 } as const;
 
-export const SIGN_IN_ACTIONS = { done: 'Done', loading: 'Loading…', signIn: 'Add API key' } as const;
+export const SIGN_IN_ACTIONS = {
+  done: 'Done',
+  loading: 'Loading…',
+  signIn: 'Add API key',
+} as const;
 
 export const OWN_PROXIES_HINT = 'Add one proxy or paste a whole list in the dashboard.';
 

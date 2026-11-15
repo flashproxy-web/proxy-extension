@@ -2,7 +2,6 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { ArrowRight, GripVertical, Trash2 } from 'lucide-react';
 
-
 import { useDashboard } from '@/dashboard/shared/model';
 import { RULE_TYPE_LABEL } from '@/shared/lib/routing';
 import { cn } from '@/shared/lib/utils';

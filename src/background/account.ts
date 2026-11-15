@@ -31,12 +31,15 @@ function toAccount(me: { email: string | null; name: string | null }): Account {
 const errorLabel = (error: unknown) =>
   error instanceof ApiError ? error.label : error instanceof Error ? error.message : String(error);
 
-const signedOut = (error: unknown) => error instanceof ApiError && error.code === API_CODE.unauthorized;
+const signedOut = (error: unknown) =>
+  error instanceof ApiError && error.code === API_CODE.unauthorized;
 
 const KEY_ERROR = {
   format: 'That isn’t a FlashProxy API key. Copy it from Settings → API on flashproxy.com.',
-  invalid: 'That API key doesn’t work. It may have been revoked; create a new one in Settings → API.',
-  proxies: 'This key can’t create proxies. Create a key with the Proxies permission in Settings → API.',
+  invalid:
+    'That API key doesn’t work. It may have been revoked; create a new one in Settings → API.',
+  proxies:
+    'This key can’t create proxies. Create a key with the Proxies permission in Settings → API.',
 } as const;
 
 async function checkKey(key: string) {
@@ -89,7 +92,10 @@ function applyAccount(account: Account, plans: Plan[]) {
   commit({ account, plans });
   const next = connectViaPlan({ settings: current().settings, plans, account });
   if (!active || stale) {
-    setSettings({ active: next ? { kind: 'fp', planId: next.id } : null, lastPlanId: next?.id ?? null });
+    setSettings({
+      active: next ? { kind: 'fp', planId: next.id } : null,
+      lastPlanId: next?.id ?? null,
+    });
   }
 }
 
@@ -98,7 +104,11 @@ function clearAccount() {
   commit({
     account: null,
     plans: [],
-    settings: { ...settings, lastPlanId: null, active: settings.active?.kind === 'fp' ? null : settings.active },
+    settings: {
+      ...settings,
+      lastPlanId: null,
+      active: settings.active?.kind === 'fp' ? null : settings.active,
+    },
   });
 }
 
@@ -179,9 +189,17 @@ async function loadAndApply(userInitiated: boolean) {
     if (signedOut(error)) {
       await clearApiKey();
       clearAccount();
-      toast({ text: 'Your FlashProxy API key stopped working. Add a new one.', icon: 'log-out', color: TOAST_BAD });
+      toast({
+        text: 'Your FlashProxy API key stopped working. Add a new one.',
+        icon: 'log-out',
+        color: TOAST_BAD,
+      });
     } else if (userInitiated) {
-      toast({ text: 'Couldn’t reach FlashProxy · ' + errorLabel(error), icon: 'wifi-off', color: TOAST_BAD });
+      toast({
+        text: 'Couldn’t reach FlashProxy · ' + errorLabel(error),
+        icon: 'wifi-off',
+        color: TOAST_BAD,
+      });
     }
   }
 }

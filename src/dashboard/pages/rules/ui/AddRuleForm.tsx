@@ -3,7 +3,6 @@ import { CircleAlert } from 'lucide-react';
 import { useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod';
 
-
 import { notify } from '@/dashboard/shared/lib/notify';
 import { RULE_TYPE_LABEL, ruleType } from '@/shared/lib/routing';
 import type { RuleTarget } from '@/shared/model';

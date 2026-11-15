@@ -4,7 +4,6 @@ import type { Account } from '@/shared/model';
 import { ApiKeyForm } from '@/shared/ui/ApiKeyForm';
 import { Button } from '@/shared/ui/button';
 
-
 export function ApiKeySetting({ account }: { account: Account | null }) {
   if (!account) {
     return (

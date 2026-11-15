@@ -1,0 +1,7 @@
+node_modules
+dist
+.cache
+e2e/out
+package-lock.json
+docs/screenshots
+src/assets/fonts

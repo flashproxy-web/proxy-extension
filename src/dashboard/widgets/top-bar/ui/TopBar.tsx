@@ -21,7 +21,7 @@ export function TopBar({
   return (
     <header className="border-fp-line relative z-30 flex h-17 shrink-0 items-center justify-between gap-4 border-b bg-[var(--fp-header)] px-4 pe-6 backdrop-blur-md">
       <div className="text-fp-muted2 flex min-w-0 items-center gap-2 text-sm whitespace-nowrap">
-        <span>Switcher</span>
+        <span>Proxy Manager</span>
         <ChevronRight className="text-fp-line2 size-3.5" />
         <span className="text-fp-ink truncate font-semibold">{PAGE_BY_ID.get(page)?.label}</span>
       </div>

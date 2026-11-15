@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: FlashProxy account or billing help
+    url: https://www.flashproxy.com/contact
+    about: Questions about your FlashProxy plan, payments or account go to FlashProxy support, not this repository.
+  - name: Report a security vulnerability
+    url: https://github.com/flashproxy-web/proxy-extension/security/advisories/new
+    about: Report vulnerabilities privately. Do not open a public issue.

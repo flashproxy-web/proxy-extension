@@ -2,6 +2,28 @@
   "name": "proxy-extension",
   "private": true,
   "version": "0.3.0",
+  "description": "Switch between FlashProxy plans and proxies from any provider, with per-site rules. Manifest V3 extension for Chrome and Chromium browsers.",
+  "keywords": [
+    "proxy",
+    "proxy-switcher",
+    "chrome-extension",
+    "manifest-v3",
+    "pac",
+    "socks5",
+    "flashproxy",
+    "residential-proxy",
+    "browser-extension"
+  ],
+  "homepage": "https://github.com/flashproxy-web/proxy-extension#readme",
+  "bugs": {
+    "url": "https://github.com/flashproxy-web/proxy-extension/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flashproxy-web/proxy-extension.git"
+  },
+  "license": "GPL-3.0-only",
+  "author": "FlashProxy (https://www.flashproxy.com)",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +32,7 @@
     "pac-check": "esbuild scripts/pac-check.ts --bundle --platform=node --log-level=warning --outfile=.cache/pac-check.cjs && node .cache/pac-check.cjs",
     "e2e": "node e2e/run.mjs",
     "test": "npm run pac-check && npm run build && npm run e2e",
-    "shots": "node scripts/readme-shots.mjs",
+    "shots": "node scripts/screenshots.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:fsd": "steiger ./src/popup && steiger ./src/dashboard && steiger ./src/welcome",
@@ -64,6 +86,5 @@
     "typescript": "5.6.3",
     "typescript-eslint": "8.62.1",
     "vite": "5.4.11"
-  },
-  "license": "GPL-3.0-only"
+  }
 }

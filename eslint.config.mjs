@@ -8,7 +8,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist/**', 'node_modules/**', '.cache/**', 'docs/**', 'store/**', 'public/**'] },
+  { ignores: ['dist/**', 'node_modules/**', '.cache/**', 'docs/**', 'public/**'] },
 
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -25,7 +25,8 @@ export default tseslint.config(
       'no-restricted-syntax': [
         'error',
         {
-          selector: "ImportDeclaration[source.value='react'] > ImportSpecifier[imported.name=/^(useCallback|useMemo|memo)$/]",
+          selector:
+            "ImportDeclaration[source.value='react'] > ImportSpecifier[imported.name=/^(useCallback|useMemo|memo)$/]",
           message: 'The React Compiler memoizes automatically; use plain functions and values.',
         },
       ],
@@ -51,22 +52,43 @@ export default tseslint.config(
   },
 
   {
-    files: ['src/shared/ui/*-*.tsx', 'src/shared/ui/{badge,button,form,tabs,toggle}.tsx', 'src/**/index.ts'],
+    files: [
+      'src/shared/ui/*-*.tsx',
+      'src/shared/ui/{badge,button,form,tabs,toggle}.tsx',
+      'src/**/index.ts',
+    ],
     rules: { 'react-refresh/only-export-components': 'off' },
   },
 
   {
     plugins: { import: importPlugin, 'unused-imports': unusedImports },
     rules: {
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
       'unused-imports/no-unused-imports': 'warn',
       'import/order': [
         'warn',
         {
-          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object', 'type'],
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+            'object',
+            'type',
+          ],
           pathGroups: [
             { pattern: '@/**', group: 'internal' },
-            { pattern: '*.css', group: 'index', position: 'after', patternOptions: { matchBase: true } },
+            {
+              pattern: '*.css',
+              group: 'index',
+              position: 'after',
+              patternOptions: { matchBase: true },
+            },
           ],
           pathGroupsExcludedImportTypes: ['builtin'],
           'newlines-between': 'always',

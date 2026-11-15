@@ -3,7 +3,8 @@ import type { Protocol, Status } from '../model';
 // Values that depend on the FlashProxy backend. Everything marked PLACEHOLDER
 // must be confirmed with the backend team before release.
 
-export const FP_WEB = (import.meta.env.VITE_FP_WEB as string | undefined) ?? 'https://www.flashproxy.com';
+export const FP_WEB =
+  (import.meta.env.VITE_FP_WEB as string | undefined) ?? 'https://www.flashproxy.com';
 export const FP_API = `${FP_WEB}/api/v1`;
 
 /** PLACEHOLDER paths on the FlashProxy website. /auth/login and /dashboard/settings?tab=api are confirmed. */
@@ -23,7 +24,15 @@ export const STICKY_SECONDS = 600;
 
 export const LATENCY_MS = { fast: 100, slow: 250 } as const;
 
-export const ERROR_STATES: readonly Status[] = ['auth', 'unreach', 'bw', 'conflict', 'noplans', 'expired', 'ownfail'];
+export const ERROR_STATES: readonly Status[] = [
+  'auth',
+  'unreach',
+  'bw',
+  'conflict',
+  'noplans',
+  'expired',
+  'ownfail',
+];
 
 export const TOAST_OK = '#4ADE80';
 export const TOAST_INFO = '#A98BFF';
@@ -57,4 +66,3 @@ export const CUSTOM_PROVIDER = { name: 'Custom', color: '#6B6780' } as const;
 export const AUTO_PROVIDER_ID = 'auto';
 export const DEFAULT_POOL_NAME = 'Imported pool';
 export const IMPORT_TAG = 'imported';
-

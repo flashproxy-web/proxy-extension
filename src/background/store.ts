@@ -36,12 +36,15 @@ function broadcast(message: PortMessage) {
 
 export function commit(patch: Partial<Persisted>, runtime: Partial<Runtime> = {}) {
   state = { ...state, ...patch, runtime: { ...state.runtime, ...runtime } };
-  if (Object.keys(patch).length) void chrome.storage.local.set({ [STORAGE_KEY.state]: persisted(state) });
-  if (Object.keys(runtime).length) void chrome.storage.session.set({ [STORAGE_KEY.runtime]: state.runtime });
+  if (Object.keys(patch).length)
+    void chrome.storage.local.set({ [STORAGE_KEY.state]: persisted(state) });
+  if (Object.keys(runtime).length)
+    void chrome.storage.session.set({ [STORAGE_KEY.runtime]: state.runtime });
   broadcast({ type: 'snapshot', snapshot: state });
 }
 
-export const setSettings = (patch: Partial<Settings>) => commit({ settings: { ...state.settings, ...patch } });
+export const setSettings = (patch: Partial<Settings>) =>
+  commit({ settings: { ...state.settings, ...patch } });
 
 export const setRuntime = (patch: Partial<Runtime>) => commit({}, patch);
 
@@ -50,5 +53,7 @@ export const toast = (message: Toast) => broadcast({ type: 'toast', toast: messa
 export function attach(port: chrome.runtime.Port) {
   ports.add(port);
   port.onDisconnect.addListener(() => ports.delete(port));
-  void ready.then(() => port.postMessage({ type: 'snapshot', snapshot: state } satisfies PortMessage));
+  void ready.then(() =>
+    port.postMessage({ type: 'snapshot', snapshot: state } satisfies PortMessage)
+  );
 }

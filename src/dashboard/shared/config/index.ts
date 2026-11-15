@@ -135,7 +135,6 @@ export const IMPORT_FORMATS = [
   'http://user:pass@host:port',
 ];
 
-
 export const PROXY_COLUMNS = [
   { key: 'label', label: 'Label', className: 'pl-12.5' },
   { key: 'host', label: 'Host : port', className: 'w-44' },

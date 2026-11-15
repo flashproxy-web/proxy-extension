@@ -21,7 +21,10 @@ function openDb(): Promise<IDBDatabase> {
   });
 }
 
-async function keyStore<T>(mode: IDBTransactionMode, fn: (store: IDBObjectStore) => IDBRequest<T>): Promise<T> {
+async function keyStore<T>(
+  mode: IDBTransactionMode,
+  fn: (store: IDBObjectStore) => IDBRequest<T>
+): Promise<T> {
   const db = await openDb();
   try {
     return await new Promise<T>((resolve, reject) => {
@@ -38,9 +41,15 @@ let key: Promise<CryptoKey> | null = null;
 
 function masterKey(): Promise<CryptoKey> {
   key ??= (async () => {
-    const existing = await keyStore<CryptoKey | undefined>('readonly', (store) => store.get(VAULT.keyId));
+    const existing = await keyStore<CryptoKey | undefined>('readonly', (store) =>
+      store.get(VAULT.keyId)
+    );
     if (existing) return existing;
-    const created = await crypto.subtle.generateKey({ name: CIPHER, length: VAULT.keyBits }, false, ['encrypt', 'decrypt']);
+    const created = await crypto.subtle.generateKey(
+      { name: CIPHER, length: VAULT.keyBits },
+      false,
+      ['encrypt', 'decrypt']
+    );
     await keyStore('readwrite', (store) => store.put(created, VAULT.keyId));
     return created;
   })();

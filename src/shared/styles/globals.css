@@ -799,7 +799,6 @@ body {
   background: rgb(255 255 255 / 0.16);
 }
 
-
 :is(code, kbd, pre, samp, .font-mono) {
   font-family: 'Geist Mono', ui-monospace, monospace;
 }
@@ -893,20 +892,20 @@ body {
 }
 
 :is(
-    [data-slot='dropdown-menu-item'],
-    [data-slot='dropdown-menu-checkbox-item'],
-    [data-slot='dropdown-menu-radio-item'],
-    [data-slot='select-item'],
-    [data-slot='dropdown-menu-sub-trigger']
-  ):focus {
+  [data-slot='dropdown-menu-item'],
+  [data-slot='dropdown-menu-checkbox-item'],
+  [data-slot='dropdown-menu-radio-item'],
+  [data-slot='select-item'],
+  [data-slot='dropdown-menu-sub-trigger']
+):focus {
   background-color: var(--fp-panel);
   color: var(--fp-ink);
 }
 :is(
-    [data-slot='dropdown-menu-content'],
-    [data-slot='select-content'],
-    [data-slot='popover-content']
-  ) {
+  [data-slot='dropdown-menu-content'],
+  [data-slot='select-content'],
+  [data-slot='popover-content']
+) {
   border-color: var(--fp-line);
   border-radius: 12px;
 }

@@ -6,7 +6,12 @@ import { recordHealth, serverFor, toServer, type Health } from './ownProxies';
 import { controlConflict, testThrough, type Server } from './proxy';
 import { current, setRuntime } from './store';
 
-const NOT_TESTED: TestResult = { ok: false, title: 'Test stopped', detail: '', short: TEST_SHORT.notTested };
+const NOT_TESTED: TestResult = {
+  ok: false,
+  title: 'Test stopped',
+  detail: '',
+  short: TEST_SHORT.notTested,
+};
 
 const CONFLICT: TestResult = {
   ok: false,
@@ -66,14 +71,23 @@ function runTest(server: Server, protocol: Protocol): Promise<TestResult> {
 
 export async function testDraft(draft: ProxyDraft): Promise<TestResult> {
   const endpoint = draft.endpoints[0];
-  if (!endpoint) return { ok: false, title: 'Add a host first', detail: 'Enter the proxy host, for example brd.superproxy.io.', short: TEST_SHORT.notTested };
-  const credentials = draft.username ? { username: draft.username, password: draft.password } : null;
+  if (!endpoint)
+    return {
+      ok: false,
+      title: 'Add a host first',
+      detail: 'Enter the proxy host, for example brd.superproxy.io.',
+      short: TEST_SHORT.notTested,
+    };
+  const credentials = draft.username
+    ? { username: draft.username, password: draft.password }
+    : null;
   return runTest(toServer(draft.protocol, endpoint, credentials), draft.protocol);
 }
 
 export async function testProxy(id: string): Promise<TestResult> {
   const proxy = current().ownProxies.find((item) => item.id === id);
-  if (!proxy) return { ok: false, title: 'Proxy not found', detail: '', short: TEST_SHORT.notTested };
+  if (!proxy)
+    return { ok: false, title: 'Proxy not found', detail: '', short: TEST_SHORT.notTested };
   setRuntime({ testing: [...current().runtime.testing, id] });
   const byEndpoint = new Map<number, Health>();
   let best: TestResult | null = null;
@@ -82,7 +96,12 @@ export async function testProxy(id: string): Promise<TestResult> {
       if (stopRequested) break;
       const result = await serverFor(proxy, endpoint).then(
         (server) => runTest(server, proxy.protocol),
-        (error: Error): TestResult => ({ ok: false, title: error.message, detail: '', short: TEST_SHORT.auth })
+        (error: Error): TestResult => ({
+          ok: false,
+          title: error.message,
+          detail: '',
+          short: TEST_SHORT.auth,
+        })
       );
       byEndpoint.set(index, healthOf(result));
       if (!best || (result.ok && (!best.ok || result.ms < best.ms))) best = result;
@@ -94,7 +113,12 @@ export async function testProxy(id: string): Promise<TestResult> {
   return best ?? NOT_TESTED;
 }
 
-export async function testAll(): Promise<{ total: number; healthy: number; failing: number; stopped: boolean }> {
+export async function testAll(): Promise<{
+  total: number;
+  healthy: number;
+  failing: number;
+  stopped: boolean;
+}> {
   const ids = current().ownProxies.map((proxy) => proxy.id);
   stopRequested = false;
   let healthy = 0;

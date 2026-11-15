@@ -8,18 +8,11 @@
     "scripts/*.{mjs,ts}",
     "steiger.config.ts"
   ],
-  "project": [
-    "src/**/*.{ts,tsx}",
-    "scripts/**/*.{mjs,ts}"
-  ],
+  "project": ["src/**/*.{ts,tsx}", "scripts/**/*.{mjs,ts}"],
   "ignore": [
     "src/shared/ui/*-*.tsx",
     "src/shared/ui/{alert,avatar,badge,button,card,command,dialog,form,input,label,popover,separator,sheet,skeleton,sonner,switch,table,tabs,textarea,toggle,tooltip}.tsx"
   ],
-  "ignoreDependencies": [
-    "flag-icons",
-    "tailwindcss",
-    "tw-animate-css"
-  ],
+  "ignoreDependencies": ["flag-icons", "tailwindcss", "tw-animate-css"],
   "ignoreExportsUsedInFile": true
 }

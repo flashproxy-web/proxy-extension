@@ -23,7 +23,10 @@ export class ApiError extends Error {
 
 const envelopeSchema = z.union([
   z.object({ success: z.literal(true), data: z.unknown() }),
-  z.object({ success: z.literal(false), error: z.object({ code: z.string(), message: z.string() }) }),
+  z.object({
+    success: z.literal(false),
+    error: z.object({ code: z.string(), message: z.string() }),
+  }),
 ]);
 
 const meSchema = z.object({ email: z.string().nullable(), name: z.string().nullable() });
@@ -64,14 +67,23 @@ async function send(config: AxiosRequestConfig, key: string | null): Promise<Axi
   const apiKey = key ?? (await readApiKey());
   if (!apiKey) throw new ApiError(401, API_CODE.unauthorized, 'No API key');
   try {
-    return await axios({ ...config, url: FP_API + config.url, headers: { Authorization: `Bearer ${apiKey}` }, validateStatus: null });
+    return await axios({
+      ...config,
+      url: FP_API + config.url,
+      headers: { Authorization: `Bearer ${apiKey}` },
+      validateStatus: null,
+    });
   } catch (error) {
     throw new ApiError(0, API_CODE.network, error instanceof Error ? error.message : String(error));
   }
 }
 
 /** `key` checks a key before it is saved; otherwise the saved key is used. */
-async function request<T>(schema: z.ZodType<T>, config: AxiosRequestConfig, key: string | null = null): Promise<T> {
+async function request<T>(
+  schema: z.ZodType<T>,
+  config: AxiosRequestConfig,
+  key: string | null = null
+): Promise<T> {
   const res = await send(config, key);
   const envelope = envelopeSchema.safeParse(res.data);
   if (!envelope.success) throw new ApiError(res.status, API_CODE.badResponse, res.statusText);
@@ -117,10 +129,15 @@ export async function fetchProxy(
     protocol: 'http',
     format: 'url',
   };
-  const { proxies } = await request(proxiesSchema, { method: 'POST', url: FP_API_PATH.proxies(planId), data: body });
+  const { proxies } = await request(proxiesSchema, {
+    method: 'POST',
+    url: FP_API_PATH.proxies(planId),
+    data: body,
+  });
   const url = new URL(proxies[0]);
   const scheme = url.protocol.replace(':', '') as FpProxy['scheme'];
-  if (!PROXY_SCHEMES.includes(scheme) || !url.port) throw new ApiError(200, API_CODE.badResponse, proxies[0]);
+  if (!PROXY_SCHEMES.includes(scheme) || !url.port)
+    throw new ApiError(200, API_CODE.badResponse, proxies[0]);
   return {
     scheme,
     host: url.hostname,
