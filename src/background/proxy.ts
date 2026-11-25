@@ -21,7 +21,7 @@ export type { RouteTarget, RuleRoute, Routing, Server } from './pac';
 export type TestOutcome =
   { ok: true; ms: number; exit: ExitInfo } | { ok: false; kind: 'auth' | 'timeout' | 'refused' };
 
-const ledgerSchema = z.record(z.object({ hash: z.string(), since: z.number() }));
+const ledgerSchema = z.record(z.string(), z.object({ hash: z.string(), since: z.number() }));
 type Ledger = z.infer<typeof ledgerSchema>;
 
 const appliedSchema = z.object({ proxy: serverSchema, routes: z.array(ruleRouteSchema) });
