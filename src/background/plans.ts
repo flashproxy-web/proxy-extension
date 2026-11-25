@@ -56,7 +56,7 @@ const locationEntrySchema = z.object({
 });
 type LocationEntry = z.infer<typeof locationEntrySchema>;
 
-const locationCacheSchema = z.record(locationEntrySchema);
+const locationCacheSchema = z.record(z.string(), locationEntrySchema);
 export type LocationCache = z.infer<typeof locationCacheSchema>;
 
 const kindOf = (product: string): PlanKind =>
